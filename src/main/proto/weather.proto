@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "ru.jokerconf.grpcexample";
+package ru.jokerconf.grpcexample;
+
+service WeatherService {
+    rpc GetCurrent(WeatherRequest) returns (WeatherResponse);
+}
+
+service TemperatureService {
+    rpc getCurrent(Coordinates) returns (Temperature);
+}
+service HumidityService {
+    rpc getCurrent(Coordinates) returns (Humidity);
+}
+service WindService {
+    rpc getCurrent(Coordinates) returns (Wind);
+}
+
+message Wind {
+    Speed speed = 1;
+    float direction = 2;
+}
+
+message Speed {
+    float value = 1;
+    Units units = 2;
+}
+
+enum Units {
+    MPH = 0;
+    MPS = 1;
+    KNOTS = 2;
+    KMH = 3;
+}
+
+message Coordinates {
+    fixed64 latitude = 1;
+    fixed64 longitude = 2;
+}
+
+message WeatherRequest {
+    Coordinates coordinates = 1;
+}
+
+message WeatherResponse {
+    Temperature temperature = 1;
+    Humidity humidity = 2;
+    Wind wind = 3;
+}
+
+message  Temperature {
+    float degrees = 1;
+    Units units = 2;
+    enum Units {
+        FAHRENHEIT = 0;
+        CELSIUS = 1;
+    }
+}
+
+message Humidity {
+    float value = 1;
+}
